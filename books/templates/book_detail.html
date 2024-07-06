@@ -28,10 +28,15 @@
             <div class="col-1 me-3">
                 <img style="width: 50px; height: 50px; border-radius: 50%;" class="small-profile-pic" src="{{ comment.user.image.url }}">
             </div>
+           
             <div class="col-7">
                 <b>{{ comment.user.username }}</b> rated it {{ comment.star }} stars <span class="fw-lighter">{{ comment.created_at }}</span>
                 <p class="mt-2 font-monospace">{{ comment.text }}</p>
+                {% if comment.user == request.user %}
+                    <a href="{% url 'book_delete' book_id=book.id comment_id=comment.id %}"><button type="button" class="btn btn-danger">Delete</button></i></a>
+                {% endif %}
             </div>
+           
         </div>
     {% endfor %}
 {% endif %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, Comment
 from django.views import  View
 from .forms import CommentForm
@@ -30,4 +30,12 @@ def book_comments(request, id):
             messages.success(request, 'Comment added successfully')
             return redirect('book_detail', id=id)
         return render(request, 'book_detail', context={'book': book, 'form': form})
+
+
+def book_delete(request, book_id, comment_id):
+    book = get_object_or_404(Book , id=book_id)
+    comment = get_object_or_404(Comment, id=comment_id, book=book)
+    comment.delete()
+    messages.success(request, 'Comment deleted successfully')
+    return redirect('book_detail', id=book_id)
 
