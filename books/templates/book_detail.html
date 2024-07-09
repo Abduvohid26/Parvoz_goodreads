@@ -33,8 +33,11 @@
                 <b>{{ comment.user.username }}</b> rated it {{ comment.star }} stars <span class="fw-lighter">{{ comment.created_at }}</span>
                 <p class="mt-2 font-monospace">{{ comment.text }}</p>
                 {% if comment.user == request.user %}
-                    <a href="{% url 'book_delete' book_id=book.id comment_id=comment.id %}"><button type="button" class="btn btn-danger">Delete</button></i></a>
-                {% endif %}
+                <a href="{% url 'comment_delete' book_id=book.id comment_id=comment.id %}">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+                <a href="{% url 'comment_edit' comment.id %}"><button type="button" class="btn btn-primary">Edit</button></a>
+            {% endif %}
             </div>
            
         </div>

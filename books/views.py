@@ -32,10 +32,23 @@ def book_comments(request, id):
         return render(request, 'book_detail', context={'book': book, 'form': form})
 
 
-def book_delete(request, book_id, comment_id):
+def comment_delete(request, book_id, comment_id):
     book = get_object_or_404(Book , id=book_id)
     comment = get_object_or_404(Comment, id=comment_id, book=book)
     comment.delete()
     messages.success(request, 'Comment deleted successfully')
     return redirect('book_detail', id=book_id)
 
+
+def comment_edit(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('book_detail', id=comment.book.id)
+    else:
+        form = CommentForm(instance=comment)
+
+    return render(request, 'comment_edit.html', {'form': form, 'comment': comment})
