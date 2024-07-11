@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 @csrf_exempt
 def login_view(request):
@@ -41,18 +42,18 @@ def register_view(request):
     else:
         return render(request, 'register.html')
     
-
+@login_required
 def logout_view(request):
     logout(request)
     messages.success(request, 'You are now logged out')
     return redirect('login')
 
-
+@login_required
 def profile_view(request):
     user = request.user
     return render(request, 'profile.html', context={'user': user})
 
-
+@login_required
 def profile_edit_view(request):
     user = request.user
     if request.method == 'POST':
