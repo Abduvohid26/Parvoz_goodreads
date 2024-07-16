@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Book Add</h2>
+    <form method="post" action="{% url 'book_add' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary">Book Add</button>
+      <a class="btn btn-danger" href="{% url 'books' %}" role="button">Back</a>
+
+    </form>
+  </div>
+{% endblock %}

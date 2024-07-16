@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, Comment
 from django.views import  View
-from .forms import CommentForm
+from .forms import CommentForm, BookForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -59,3 +59,22 @@ def comment_edit(request, comment_id):
         form = CommentForm(instance=comment)
 
     return render(request, 'comment_edit.html', {'form': form, 'comment': comment})
+
+
+# def book_add(request):
+#     if request.method == 'POST':
+#         form = B
+
+class BookAdd(View):
+    def get(self, request):
+        form = BookForm()
+        return render(request, 'book_add.html', {'form': form})
+    
+    def post(self, request):
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Book added successfully')
+            return redirect('books')
+        messages.warning(request, 'Book is not valid')
+        return render(request, 'book_add.html', context={'form': form})
